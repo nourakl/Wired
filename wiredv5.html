@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wired - Mental Wellness Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --light: #dfe6e9;
+            --dark: #2d3436;
+            --success: #00b894;
+            --warning: #fdcb6e;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .points {
+            background-color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(rgba(108, 92, 231, 0.8), rgba(162, 155, 254, 0.8)), url('https://images.unsplash.com/photo-1516589178581-6cd7833ae638?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 12px 18px;
+            border-radius: 20px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: var(--secondary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background: var(--light);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            background: var(--light);
+            padding: 12px 18px;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            max-width: 70%;
+            align-self: flex-start;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .chat-input button:hover {
+            background: var(--secondary);
+        }
+
+        
+        .quote-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: var(--dark);
+        }
+
+        .author {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .quote-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quote-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .movie-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .movie-rating {
+            display: flex;
+            align-items: center;
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        
+        .reels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .reel-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+        }
+
+        .reel-video {
+            height: 250px;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .reel-info {
+            padding: 15px;
+        }
+
+        .reel-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        
+        .media-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        .modal-video, .modal-movie {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+        }
+
+       
+        .auth-container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: var(--secondary);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .auth-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-video, .modal-movie {
+                height: 300px;
+            }
+            
+            .auth-link {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>Wired</span>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="chat">Chat Bot</a></li>
+                    <li><a href="#" class="nav-link" data-page="quotes">Quotes</a></li>
+                    <li><a href="#" class="nav-link" data-page="movies">Movies</a></li>
+                    <li><a href="#" class="nav-link" data-page="reels">Reels</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-info">
+                <div class="points">
+                    <i class="fas fa-coins"></i>
+                    <span id="points-count">0</span>
+                </div>
+                <button id="logout-btn" class="auth-btn" style="display:none; padding: 8px 15px;">Logout</button>
+                <button id="login-btn" class="auth-btn" style="padding: 8px 15px;">Login</button>
+            </div>
+        </div>
+    </header>
+
+    
+    <main class="container main-content">
+        
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>You Are Not Alone</h1>
+                <p>Wired is here to support you through difficult times. Explore our resources, chat with our supportive bot, and find moments of joy each day.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Support Chat</h3>
+                    <p>Chat with our friendly AI bot that's here to listen and provide comfort whenever you need it.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-quote-left"></i>
+                    <h3>Inspirational Quotes</h3>
+                    <p>Discover daily quotes that inspire hope, resilience, and positive thinking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Curated Movies</h3>
+                    <p>Find movie recommendations that can lift your spirits and provide a healthy distraction.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Funny Reels</h3>
+                    <p>Watch short, funny videos that can bring a smile to your face and lighten your mood.</p>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="chat" class="page">
+            <h2 style="text-align: center; margin-bottom: 30px;">Support Chat</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>Wired Support Bot</h3>
+                    <p>I'm here to listen and help</p>
+                </div>
+                <div class="chat-messages">
+                    
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-user-input" placeholder="Type your message here...">
+                    <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="quotes" class="page">
+            <h2 style="text-align: center; margin-bottom: 30px;">Inspirational Quotes</h2>
+            <div class="quote-container">
+                <p class="quote">"The greatest glory in living lies not in never falling, but in rising every time we fall."</p>
+                <p class="author">- Nelson Mandela</p>
+                <button class="quote-btn" id="new-quote">New Quote</button>
+            </div>
+        </section>
+
+        
+        <section id="movies" class="page">
+            <h2 style="text-align: center; margin-bottom: 30px;">Movie Recommendations</h2>
+            <div class="movies-grid">
+                <div class="movie-card" data-video-id="W6Mm4S5JzYk">
+                    <div class="movie-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn1.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcQOUyXlSiN6ER7Ru5qksGEOq09ij1zxHIN1UmIill7BRR2gp3OV&psig=AOvVaw3Ff86RsCnNTOSLwLjxu7sa&ust=1758032366907000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKD1_4r72o8DFQAAAAAdAAAAABAE');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Secret Life of Walter Mitty</h3>
+                        <p class="movie-desc">A day-dreamer escapes his anonymous life by disappearing into a world of fantasies filled with heroism, romance and action.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>7.3/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" data-video-id="iO0qW8QaJhY">
+                    <div class="movie-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcQCAVNHSTMg1kboB9nLrl_xjF7cJQJsjj8fNPqkYwb8pc_mmpe9&psig=AOvVaw2w-FHnSytU2vjW5uAcir2Z&ust=1758032427683000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiW_aT72o8DFQAAAAAdAAAAABAE');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Pursuit of Happyness</h3>
+                        <p class="movie-desc">A struggling salesman takes custody of his son as he's poised to begin a life-changing professional endeavor.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>8.0/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" data-video-id="QSMvyu9wUwk">
+                    <div class="movie-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn1.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcRgrE-jl_GHEFmotn7OnzGuTFcP70OsJHfhJgMrol75eK8iwDXB&psig=AOvVaw2iwi_7RmZVwGxBw69vfz0D&ust=1758033796636000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNjqibSA248DFQAAAAAdAAAAABAE');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">Good Will Hunting</h3>
+                        <p class="movie-desc">Will Hunting, a janitor at MIT, has a gift for mathematics but needs help from a psychologist to find direction in his life.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>8.3/10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" data-video-id="6hB3S9bIaco">
+                    <div class="movie-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn3.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcRipfEoI8fb4qxidki3e_kp3fr_Kopvoi2yCKcpJGf2ngnKweMR&psig=AOvVaw2XtPKxO28YN8grT7I3Vsv_&ust=1758033934076000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLCYzfKA248DFQAAAAAdAAAAABAE');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Shawshank Redemption</h3>
+                        <p class="movie-desc">Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>9.3/10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card" data-video-id="lFzVJEksoDY">
+                    <div class="movie-img" style="background-image: url('https://i.ytimg.com/vi/lFzVJEksoDY/maxresdefault.jpg');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Lion King</h3>
+                        <p class="movie-desc">A young lion prince must face his past to fulfill his destiny and become the king of the Pride Lands after his uncle's betrayal.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>6.8/10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card" data-video-id="P9-FCC6I7u0">
+                    <div class="movie-img" style="background-image: url('https://i.ytimg.com/vi/P9-FCC6I7u0/maxresdefault.jpg');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">Minions</h3>
+                        <p class="movie-desc">Evolving from single-celled organisms, the Minions search for a despicable master to serve, finding one in Scarlet Overkill.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>6.4/10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card" data-video-id="zzCZ1W_CUoI">
+                    <div class="movie-img" style="background-image: url('https://i.ytimg.com/vi/zzCZ1W_CUoI/maxresdefault.jpg');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">Despicable Me</h3>
+                        <p class="movie-desc">A criminal mastermind uses three orphan girls as pawns for a grand scheme, but finds their love is profoundly changing him.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>7.6/10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card" data-video-id="pkqzFUhftA4">
+                    <div class="movie-img" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fencrypted-tbn2.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSA13lidqFTPKSA-P_svrDdKqUkzqYCC1Xsgf0pjMoY3OkPlsQ-&psig=AOvVaw2zLrgmgLkXDpPANRT-mutg&ust=1758034035914000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMC9m6OB248DFQAAAAAdAAAAABAE');"></div>
+                    <div class="movie-info">
+                        <h3 class="movie-title">Up</h3>
+                        <p class="movie-desc">78-year-old Carl Fredricksen travels to Paradise Falls in his house equipped with balloons, inadvertently taking a young stowaway.</p>
+                        <div class="movie-rating">
+                            <i class="fas fa-star"></i>
+                            <span>8.3/10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+        <section id="reels" class="page">
+            <h2 style="text-align: center; margin-bottom: 30px;">Funny Reels</h2>
+            <div class="reels-container">
+                <div class="reel-card" data-video-id="ByXuk9QqQkk">
+                    <div class="reel-video">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Funny Cats Compilation</h3>
+                        <p>2:45</p>
+                    </div>
+                </div>
+                
+                <div class="reel-card" data-video-id="M_jZeCIaQ2s">
+                    <div class="reel-video">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Stand-Up Comedy Clip</h3>
+                        <p>1:30</p>
+                    </div>
+                </div>
+                
+                <div class="reel-card" data-video-id="tKQSlH-LLTQ">
+                    <div class="reel-video">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="reel-info">
+                        <h3 class="reel-title">Prank Fails 2023</h3>
+                        <p>3:15</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+        <section id="login" class="page">
+            <div class="auth-container">
+                <h2>Login to Wired</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password">
+                </div>
+                <button class="auth-btn" id="login-submit">Login</button>
+                <div class="auth-link">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="register" class="page">
+            <div class="auth-container">
+                <h2>Create an Account</h2>
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password">
+                </div>
+                <button class="auth-btn" id="register-submit">Register</button>
+                <div class="auth-link">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+    <div class="media-modal" id="media-modal">
+        <div class="media-modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="media-player"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Wired - Mental Wellness Support. All rights reserved.</p>
+            <p>This website is The best in Egypt and WOrldwide HAHAHAHA.</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pointsCount = document.getElementById('points-count');
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const showLoginBtn = document.getElementById('show-login');
+        const showRegisterBtn = document.getElementById('show-register');
+        const loginSubmit = document.getElementById('login-submit');
+        const registerSubmit = document.getElementById('register-submit');
+        const newQuoteBtn = document.getElementById('new-quote');
+        const quoteElement = document.querySelector('.quote');
+        const authorElement = document.querySelector('.author');
+        const chatMessages = document.querySelector('.chat-messages');
+        const chatUserInput = document.getElementById('chat-user-input');
+        const chatSendBtn = document.getElementById('chat-send-btn');
+        const mediaModal = document.getElementById('media-modal');
+        const mediaPlayer = document.getElementById('media-player');
+        const closeModal = document.querySelector('.close-modal');
+        const movieCards = document.querySelectorAll('.movie-card');
+        const reelCards = document.querySelectorAll('.reel-card');
+
+        
+        const quotes = [
+            { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela" },
+            { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" },
+            { text: "If life were predictable it would cease to be life, and be without flavor.", author: "Eleanor Roosevelt" },
+            { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+            { text: "Spread love everywhere you go. Let no one ever come to you without leaving happier.", author: "Mother Teresa" },
+            { text: "When you reach the end of your rope, tie a knot in it and hang on.", author: "Franklin D. Roosevelt" },
+            { text: "Always remember that you are absolutely unique. Just like everyone else.", author: "Margaret Mead" },
+            { text: "Don't judge each day by the harvest you reap but by the seeds that you plant.", author: "Robert Louis Stevenson" }
+        ];
+
+        
+        let users = JSON.parse(localStorage.getItem('wired_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('wired_currentUser')) || null;
+        
+        
+        let geminiChatHistory = [];
+
+        
+        function initApp() {
+            updateNavigation();
+            updatePoints();
+            
+            
+            if (currentUser) {
+                loadChatHistory();
+            } else {
+                resetChatUI();
+            }
+
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(link.dataset.page);
+                    setActiveNav(link);
+                });
+            });
+            
+            
+            loginBtn.addEventListener('click', () => showPage('login'));
+            logoutBtn.addEventListener('click', logout);
+            showLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('login');
+            });
+            showRegisterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('register');
+            });
+            loginSubmit.addEventListener('click', login);
+            registerSubmit.addEventListener('click', register);
+            
+            newQuoteBtn.addEventListener('click', showRandomQuote);
+            
+            chatSendBtn.addEventListener('click', sendMessage);
+            chatUserInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+            
+            movieCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.getAttribute('data-video-id');
+                    openMediaModal(videoId, 'movie');
+                });
+            });
+            
+            reelCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.getAttribute('data-video-id');
+                    openMediaModal(videoId, 'reel');
+                });
+            });
+            
+            closeModal.addEventListener('click', () => {
+                mediaModal.style.display = 'none';
+                mediaPlayer.innerHTML = '';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === mediaModal) {
+                    mediaModal.style.display = 'none';
+                    mediaPlayer.innerHTML = '';
+                }
+            });
+            
+            showRandomQuote();
+            
+            if (currentUser) {
+                showPage('home');
+            }
+        }
+
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function setActiveNav(activeLink) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            activeLink.classList.add('active');
+        }
+
+        function updateNavigation() {
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+            } else {
+                loginBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+            }
+        }
+
+        function updatePoints() {
+            pointsCount.textContent = currentUser ? currentUser.points : '0';
+        }
+
+        function addPoints(amount) {
+            if (!currentUser) return;
+            
+            currentUser.points += amount;
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex].points = currentUser.points;
+            }
+            
+            localStorage.setItem('wired_users', JSON.stringify(users));
+            localStorage.setItem('wired_currentUser', JSON.stringify(currentUser));
+            
+            updatePoints();
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) return alert('Please enter both email and password');
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('wired_currentUser', JSON.stringify(currentUser));
+                updateNavigation();
+                updatePoints();
+                showPage('home');
+                setActiveNav(document.querySelector('[data-page="home"]'));
+                
+                const lastLogin = new Date(currentUser.lastLogin || 0);
+                const today = new Date();
+                if (lastLogin.toDateString() !== today.toDateString()) {
+                    addPoints(10);
+                    currentUser.lastLogin = today;
+                     const userIndex = users.findIndex(u => u.email === currentUser.email);
+                    if (userIndex !== -1) {
+                        users[userIndex].lastLogin = currentUser.lastLogin;
+                    }
+                    localStorage.setItem('wired_currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('wired_users', JSON.stringify(users));
+                }
+                loadChatHistory();
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (!name || !email || !password) return alert('Please fill in all fields');
+            if (users.some(user => user.email === email)) return alert('Email already registered');
+            
+            const newUser = { name, email, password, points: 20, lastLogin: new Date(), chatHistory: [] };
+            users.push(newUser);
+            localStorage.setItem('wired_users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('wired_currentUser', JSON.stringify(newUser));
+            
+            updateNavigation();
+            updatePoints();
+            showPage('home');
+            setActiveNav(document.querySelector('[data-page="home"]'));
+            loadChatHistory();
+            
+            alert('Registration successful! You earned 20 points!');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('wired_currentUser');
+            updateNavigation();
+            updatePoints();
+            showPage('home');
+            setActiveNav(document.querySelector('[data-page="home"]'));
+            resetChatUI();
+        }
+
+        function showRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteElement.textContent = `"${quotes[randomIndex].text}"`;
+            authorElement.textContent = `- ${quotes[randomIndex].author}`;
+            if (currentUser) addPoints(2);
+        }
+
+        
+        function resetChatUI() {
+            chatMessages.innerHTML = '';
+            const initialMessage = "Hi there! I'm WiredBot, your mental wellness assistant. How are you feeling today?";
+            addMessageToChat(initialMessage, 'bot');
+            geminiChatHistory = [{ role: "model", parts: [{ text: initialMessage }] }];
+        }
+
+        function loadChatHistory() {
+            if (!currentUser.chatHistory || currentUser.chatHistory.length === 0) {
+                resetChatUI();
+                return;
+            }
+            geminiChatHistory = [...currentUser.chatHistory];
+            chatMessages.innerHTML = '';
+            geminiChatHistory.forEach(message => {
+                const sender = message.role === 'user' ? 'user' : 'bot';
+                addMessageToChat(message.parts[0].text, sender);
+            });
+        }
+
+        function saveChatHistory() {
+            if (!currentUser) return;
+            currentUser.chatHistory = [...geminiChatHistory];
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex].chatHistory = [...geminiChatHistory];
+            }
+            localStorage.setItem('wired_users', JSON.stringify(users));
+            localStorage.setItem('wired_currentUser', JSON.stringify(currentUser));
+        }
+
+        async function sendMessage() {
+            const message = chatUserInput.value.trim();
+            if (!message) return;
+
+            addMessageToChat(message, 'user');
+            geminiChatHistory.push({ role: "user", parts: [{ text: message }] });
+            saveChatHistory(); 
+            
+            chatUserInput.value = '';
+            chatUserInput.disabled = true;
+
+            showTypingIndicator();
+
+            try {
+                const botResponse = await getBotResponse(message);
+                removeTypingIndicator();
+                addMessageToChat(botResponse, 'bot');
+                if (currentUser) addPoints(5);
+            } catch (error) {
+                console.error('Error getting bot response:', error);
+                removeTypingIndicator();
+                addMessageToChat("Sorry, I'm having trouble connecting right now. Please try again later.", 'bot');
+            } finally {
+                chatUserInput.disabled = false;
+                chatUserInput.focus();
+            }
+        }
+        
+        async function getBotResponse(input) {
+            const apiKey = "AIzaSyBM8iq0aTI702_na3_srg2K3ZElGWP1W88";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: geminiChatHistory,
+                systemInstruction: {
+                    parts: [{ text: "You are a mental wellness assistant named WiredBot. Your role is to provide empathetic, supportive, and helpful responses to users who may be experiencing mental health challenges. Be compassionate, non-judgmental, and offer practical advice when appropriate. Always prioritize emotional support and validation. Keep responses concise but meaningful." }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const botReply = candidate.content.parts[0].text;
+                    geminiChatHistory.push({ role: "model", parts: [{ text: botReply }] });
+                    saveChatHistory(); 
+                    return botReply;
+                } else {
+                    throw new Error("Invalid response format from API");
+                }
+            } catch (error) {
+                geminiChatHistory.pop(); 
+                saveChatHistory(); 
+                console.error("API Error:", error);
+                throw error;
+            }
+        }
+
+        function addMessageToChat(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingElement = document.createElement('div');
+            typingElement.classList.add('typing-indicator');
+            typingElement.id = 'typing-indicator';
+            typingElement.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+            chatMessages.appendChild(typingElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingElement = document.getElementById('typing-indicator');
+            if (typingElement) typingElement.remove();
+        }
+
+
+        function openMediaModal(videoId, type) {
+            mediaPlayer.innerHTML = `<iframe class="${type === 'movie' ? 'modal-movie' : 'modal-video'}" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            mediaModal.style.display = 'flex';
+            if (currentUser) addPoints(3);
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
